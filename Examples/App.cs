@@ -65,3 +65,5 @@ namespace RevitApiExample
         }
     }
 }
+
+git reset --hard HEAD~1
