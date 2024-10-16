@@ -1,6 +1,6 @@
-// <리본 탭 버튼 생성하는 기능>
-// 주요 조건 1) UI가 실행되는 동안 단 하나의 MainForm만 유지하게 만들어야 한다
-// 주요 조건 2) MainForm이 null이거나 이미 닫혀 있으면 새로운 인스턴스를 생성하여 반환
+// <Functionality to create a ribbon tab button>
+// Key Condition 1) Only one instance of MainForm should be maintained during the application's runtime
+// Key Condition 2) If mainForm is null or already closed, a new instance should be created and returned
 
 #region Namespaces
 using Autodesk.Revit.ApplicationServices;
@@ -21,8 +21,8 @@ namespace RevitApiExample
     {
         internal static App thisApp = null;
 
-        // MainForm 인스턴스를 추적하는 정적 변수 추가
-        // 프로그램이 실행되는 동안 단 하나의 MainForm 인스턴스만 유지하게 만듦
+        // Static variable to track the MainForm instance
+        // Ensures that only one instance of MainForm is maintained during the application's runtime
         private static MainForm mainForm = null;
 
         public Result OnStartup(UIControlledApplication a)
@@ -30,7 +30,7 @@ namespace RevitApiExample
             string tabname = "AutoRevitApiExample";
             string panelname2 = "Design";
 
-            // 현재 실행 중인 애플리케이션의 경로를 기반으로 이미지 경로 설정
+            // Set the image path based on the currently running application's path
             string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "RibbonButtonImage.png");
             BitmapImage btlimage = new BitmapImage(new Uri(imagePath));
 
@@ -49,15 +49,15 @@ namespace RevitApiExample
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            // 어플리케이션이 종료될 때 초기화
+            // Initialize on application shutdown
             mainForm = null;
             return Result.Succeeded;
         }
 
-        // MainForm의 중복 생성을 방지
+        // Prevents the duplication of the MainForm
         public static MainForm GetMainForm(ExternalCommandData commandData)
         {
-            if (mainForm == null || !mainForm.IsLoaded) // mainForm이 null이거나 이미 닫혀 있으면 새로운 인스턴스를 생성하여 반환
+            if (mainForm == null || !mainForm.IsLoaded) // If mainForm is null or already closed, create and return a new instance
             {
                 mainForm = new MainForm(commandData);
             }
